@@ -1,0 +1,27 @@
+name: map4d_map_utils
+description: Map4dMapUtils SDK for Flutter.
+version: 0.0.1
+homepage: https://map4d.vn
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=1.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  map4d_map: ^2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: vn.map4d.maputils.map4d_map_utils
+        pluginClass: Map4dMapUtilsPlugin
+      ios:
+        pluginClass: Map4dMapUtilsPlugin
