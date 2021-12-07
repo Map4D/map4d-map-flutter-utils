@@ -5,3 +5,11 @@
 .pub/
 
 build/
+.idea/misc.xml
+.idea/vcs.xml
+.idea/libraries/Flutter_Plugins.xml
+/pubspec.lock
+/map4d_map_utils.iml
+/.idea/workspace.xml
+/.idea/libraries/Dart_SDK.xml
+/example/pubspec.lock
