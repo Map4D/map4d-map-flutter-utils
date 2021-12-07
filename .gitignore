@@ -1,14 +1,22 @@
 .DS_Store
+.atom/
+.idea/
+.vscode/
+.project
+.classpath
+.settings
+#
+example/ios/Podfile
+example/ios/Podfile.lock
+# Files and directories created by pub
 .dart_tool/
-
 .packages
+build/
+# If you're building an application, you may want to check-in your pubspec.lock
+pubspec.lock
+### Flutter ###
+.pub-cache/
 .pub/
 
-build/
-.idea/misc.xml
-.idea/vcs.xml
-.idea/libraries/Flutter_Plugins.xml
-/pubspec.lock
 /.idea/workspace.xml
 /.idea/libraries/Dart_SDK.xml
-/example/pubspec.lock
