@@ -17,4 +17,5 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Classes/**/*.h'
 
   s.dependency 'Flutter'
+  s.dependency 'Map4dMapUtils'
 end

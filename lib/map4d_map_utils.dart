@@ -1,12 +1,3 @@
-import 'dart:async';
+library map4d_map_utils;
 
-import 'package:flutter/services.dart';
-
-class Map4dMapUtils {
-  static const MethodChannel _channel = MethodChannel('map4d_map_utils');
-
-  static Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
-}
+export 'src/clustering/cluster_manager.dart';
