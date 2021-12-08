@@ -21,7 +21,10 @@ class _MyAppState extends State<MyApp> {
   late MFUClusterManager _clusterManager;
 
   void onMapCreated(MFMapViewController controller) {
-    _clusterManager = MFUClusterManager(controller: controller);
+    _clusterManager = MFUClusterManager(
+      controller: controller,
+      algorithm: MFNonHierarchicalDistanceBasedAlgorithm()
+    );
     getPlatformVersion();
   }
 
