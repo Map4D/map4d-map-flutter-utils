@@ -1,10 +1,9 @@
 #import "Map4dMapUtilsPlugin.h"
-#import "FMFUClusterManager.h"
-#import "Map4dFLTConvert.h"
+#import "FMFClusterManager.h"
 
 @interface Map4dMapUtilsPlugin()
 @property (nonatomic, weak) NSObject<FlutterPluginRegistrar>* registrar;
-@property (nonatomic, strong, nonnull) NSMutableArray<FMFUClusterManager*>* managers;
+@property (nonatomic, strong, nonnull) NSMutableArray<FMFClusterManager*>* clusterManagers;
 @end
 
 @implementation Map4dMapUtilsPlugin
@@ -12,7 +11,7 @@
 - (instancetype)initWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   if (self = [super init]) {
     _registrar = registrar;
-    _managers = [NSMutableArray arrayWithCapacity:1];
+    _clusterManagers = [NSMutableArray arrayWithCapacity:1];
   }
   return self;
 }
@@ -29,12 +28,9 @@
   NSLog(@"handleMethodCall: %s", [call.method UTF8String]);
 
   if ([@"cluster#init" isEqualToString:call.method]) {
-    int64_t mapId = [Map4dFLTConvert toInt:call.arguments[@"mapId"]];
-    int64_t managerId = [Map4dFLTConvert toInt:call.arguments[@"id"]];
-    NSString* name = call.arguments[@"channel"];
 
-    FMFUClusterManager* manager = [[FMFUClusterManager alloc] initWithId:managerId channelName:name registrar:_registrar mapId:mapId];
-    [_managers addObject:manager];
+    FMFClusterManager* manager = [[FMFClusterManager alloc] initWithRegistrar:_registrar arguments:call.arguments];
+    [_clusterManagers addObject:manager];
 
     return;
   }
