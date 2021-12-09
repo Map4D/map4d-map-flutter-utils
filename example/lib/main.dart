@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -18,25 +20,61 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  late MFUClusterManager _clusterManager;
+  late MFClusterManager _clusterManager;
+  final int maxClusterItemCount = 500;
+  final double cameraLatitude = 16.0432432;
+  final double cameraLongitude = 108.032432;
 
   void onMapCreated(MFMapViewController controller) {
-    _clusterManager = MFUClusterManager(
+    _clusterManager = MFClusterManager(
       controller: controller,
       algorithm: MFNonHierarchicalDistanceBasedAlgorithm()
     );
-    getPlatformVersion();
+    // letItGo();
+    _generateClusterItems();
+    _clusterManager.cluster();
   }
 
-  Future<void> getPlatformVersion() async {
-    String platformVersion;
-    try {
-      platformVersion = await _clusterManager.platformVersion ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
+  Future<void> letItGo() async {
+    final marker0 = MFMarker(
+      markerId: MFMarkerId('m0'),
+      position: MFLatLng(0, 0)
+    );
 
-    print('platformVersion: $platformVersion');
+    final marker1 = MFMarker(
+      markerId: MFMarkerId('m1'),
+      position: MFLatLng(1, 1)
+    );
+
+    final marker2 = MFMarker(
+      markerId: MFMarkerId('m2'),
+      position: MFLatLng(2, 2)
+    );
+
+    await _clusterManager.addItem(marker0);
+
+    final Set<MFMarker> items = <MFMarker>{};
+    items.add(marker1);
+    items.add(marker2);
+    await _clusterManager.addItems(items);
+  }
+
+  void _generateClusterItems() {
+    const double extent = 0.2;
+    for (int index = 1; index <= maxClusterItemCount; ++index) {
+      double lat = cameraLatitude + extent * _randomScale();
+      double lng = cameraLongitude + extent * _randomScale();
+      final marker = MFMarker(
+        markerId: MFMarkerId(index.toString()),
+        position: MFLatLng(lat, lng),
+      );
+      _clusterManager.addItem(marker);
+    }
+  }
+
+  /// Returns a random value between -1.0 and 1.0.
+  double _randomScale() {
+    return Random().nextDouble() * 2.0 - 1.0;
   }
 
   @override
@@ -49,6 +87,10 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: MFMapView(
             onMapCreated: onMapCreated,
+            initialCameraPosition: MFCameraPosition(
+              target: MFLatLng(cameraLatitude, cameraLongitude),
+              zoom: 10,
+            ),
           ),
         ),
       ),

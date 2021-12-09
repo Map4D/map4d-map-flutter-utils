@@ -5,9 +5,9 @@ import 'cluster_algorithm.dart';
 import 'cluster_renderer.dart';
 import '../map_utils_channel.dart';
 
-class MFUClusterManager {
+class MFClusterManager {
 
-  MFUClusterManager({
+  MFClusterManager({
     required this.controller,
     this.algorithm = const MFNonHierarchicalDistanceBasedAlgorithm(),
     this.renderer = const MFDefaultClusterRenderer(),
@@ -38,10 +38,34 @@ class MFUClusterManager {
     return _channel.invokeListMethod('cluster#cluster');
   }
 
-  /// TODO: remove
-  Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+  /// TODO: consider to create MFClusterItem
+  Future<void> addItem(MFMarker item) {
+    return _channel.invokeListMethod('cluster#addItem', <String, Object>{
+      'item': item.toJson()
+    });
+  }
+
+  /// TODO: consider change to list ?
+  Future<void> addItems(Set<MFMarker> items) {
+    final List<Object> jsonItems = <Object>[];
+    for (final MFMarker item in items) {
+      jsonItems.add(item.toJson());
+    }
+    return _channel.invokeListMethod('cluster#addItems', <String, Object>{
+      'items': jsonItems
+    });
+  }
+
+  ///
+  Future<void> removeItem(MFMarker item) {
+    return _channel.invokeListMethod('cluster#removeItem', <String, Object>{
+      'item': item.toJson()
+    });
+  }
+
+  ///
+  Future<void> clearItems() {
+    return _channel.invokeListMethod('cluster#clearItems');
   }
 
   /// Handle message from platform.
