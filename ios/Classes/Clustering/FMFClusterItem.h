@@ -1,6 +1,6 @@
 //
 //  FMFClusterItem.h
-//  map4d_map_utils
+//  map4d_map_flutter_utils
 //
 //  Created by Huy Dang on 09/12/2021.
 //
@@ -9,9 +9,9 @@
 #define FMFClusterItem_h
 
 #import <CoreLocation/CoreLocation.h>
-#import "MFUClusterItem.h"
+#import "MFClusterItem.h"
 
-@interface FMFClusterItem : NSObject<MFUClusterItem>
+@interface FMFClusterItem : NSObject<MFClusterItem>
 
 @property(nonatomic, copy) NSString* title;
 

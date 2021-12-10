@@ -1,12 +1,12 @@
 //
 //  FMFClusterManager.h
-//  map4d_map_utils
+//  map4d_map_flutter_utils
 //
 //  Created by Huy Dang on 12/7/21.
 //
 
-#ifndef FMFUClusterManager_h
-#define FMFUClusterManager_h
+#ifndef FMFClusterManager_h
+#define FMFClusterManager_h
 
 #import <Flutter/Flutter.h>
 
@@ -20,4 +20,4 @@
 @end
 
 
-#endif /* FMFUClusterManager_h */
+#endif /* FMFClusterManager_h */

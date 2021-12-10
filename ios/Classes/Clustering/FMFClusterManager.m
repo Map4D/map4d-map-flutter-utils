@@ -1,6 +1,6 @@
 //
 //  FMFClusterManager.m
-//  map4d_map_utils
+//  map4d_map_flutter_utils
 //
 //  Created by Huy Dang on 12/7/21.
 //
@@ -11,9 +11,9 @@
 #import "FMFClusterItem.h"
 #import <Map4dMapUtils/MarkerCluster.h>
 
-@interface FMFClusterManager()<MFUClusterManagerDelegate>
+@interface FMFClusterManager()<MFClusterManagerDelegate>
 @property(nonatomic, weak, nullable) MFMapView* mapView;
-@property(nonatomic, strong, nullable) MFUClusterManager *clusterManager;
+@property(nonatomic, strong, nullable) MFClusterManager *clusterManager;
 @property(nonatomic, strong, nonnull) NSMutableArray<FMFClusterItem*> *items;
 @end
 
@@ -38,7 +38,7 @@
     
     // Get MFMapView from Map4dMap Flutter Plugin
     int64_t mapId = [Map4dFLTConvert toInt:arguments[@"mapId"]];
-    id<FlutterPlatformView> platformView = [Map4dMapPlugin.instance getFlutterPlatformViewById:mapId];
+    id<FlutterPlatformView> platformView = [Map4dMapPlugin.instance getFlutterMapViewById:mapId];
 
     if (platformView != nil) {
       _mapView = (MFMapView*) [platformView view];
@@ -54,32 +54,32 @@
 - (void)setupMFClusterManager:(NSDictionary*)data {
   // Cluster Algorithm
   NSString* algorithmName = data[@"algorithmName"];
-  id<MFUClusterAlgorithm> algorithm = nil;
+  id<MFClusterAlgorithm> algorithm = nil;
   if ([@"MFGridBasedAlgorithm" isEqualToString:algorithmName]) {
-    algorithm = [[MFUGridBasedClusterAlgorithm alloc] init];
+    algorithm = [[MFGridBasedClusterAlgorithm alloc] init];
   }
   else if ([@"MFNonHierarchicalDistanceBasedAlgorithm" isEqualToString:algorithmName]) {
-    algorithm = [[MFUNonHierarchicalDistanceBasedAlgorithm alloc] init];
+    algorithm = [[MFNonHierarchicalDistanceBasedAlgorithm alloc] init];
   }
   else {
     //TODO: custom algorithm
-    algorithm = [[MFUNonHierarchicalDistanceBasedAlgorithm alloc] init];
+    algorithm = [[MFNonHierarchicalDistanceBasedAlgorithm alloc] init];
   }
  
   // Cluster Renderer
   NSString* rendererName = data[@"rendererName"];
-  id<MFUClusterRenderer> renderer = nil;
+  id<MFClusterRenderer> renderer = nil;
   if ([@"MFDefaultClusterRenderer" isEqualToString:rendererName]) {
-    id<MFUClusterIconGenerator> iconGenerator = [[MFUDefaultClusterIconGenerator alloc] init];
-    renderer = [[MFUDefaultClusterRenderer alloc] initWithMapView:_mapView clusterIconGenerator:iconGenerator];
+    id<MFClusterIconGenerator> iconGenerator = [[MFDefaultClusterIconGenerator alloc] init];
+    renderer = [[MFDefaultClusterRenderer alloc] initWithMapView:_mapView clusterIconGenerator:iconGenerator];
   }
   else {
     //TODO: custom renderer
-    id<MFUClusterIconGenerator> iconGenerator = [[MFUDefaultClusterIconGenerator alloc] init];
-    renderer = [[MFUDefaultClusterRenderer alloc] initWithMapView:_mapView clusterIconGenerator:iconGenerator];
+    id<MFClusterIconGenerator> iconGenerator = [[MFDefaultClusterIconGenerator alloc] init];
+    renderer = [[MFDefaultClusterRenderer alloc] initWithMapView:_mapView clusterIconGenerator:iconGenerator];
   }
   
-  _clusterManager = [[MFUClusterManager alloc] initWithMap:_mapView algorithm:algorithm renderer:renderer];
+  _clusterManager = [[MFClusterManager alloc] initWithMap:_mapView algorithm:algorithm renderer:renderer];
   [_clusterManager setDelegate:self mapDelegate:_mapView.delegate];
 }
 
@@ -142,11 +142,11 @@
   result(FlutterMethodNotImplemented);
 }
 
-#pragma mark - MFUClusterManagerDelegate
+#pragma mark - MFClusterManagerDelegate
 
--(BOOL)clusterManager:(MFUClusterManager *)clusterManager didTapCluster:(id<MFUCluster>)cluster {
+-(BOOL)clusterManager:(MFClusterManager *)clusterManager didTapCluster:(id<MFCluster>)cluster {
   NSMutableArray* itemNos = [NSMutableArray arrayWithCapacity:cluster.count];
-  for (id<MFUClusterItem> clusterItem in cluster.items) {
+  for (id<MFClusterItem> clusterItem in cluster.items) {
     FMFClusterItem* item = (FMFClusterItem*)clusterItem;
     [itemNos addObject:[NSNumber numberWithLongLong:item.itemNo]];
   }
@@ -162,7 +162,7 @@
   return YES;
 }
 
-- (BOOL)clusterManager:(MFUClusterManager *)clusterManager didTapClusterItem:(id<MFUClusterItem>)clusterItem {
+- (BOOL)clusterManager:(MFClusterManager *)clusterManager didTapClusterItem:(id<MFClusterItem>)clusterItem {
   FMFClusterItem* item = (FMFClusterItem*)clusterItem;
   [_channel invokeMethod:@"cluster#onClusterItemTap" arguments:@{ @"itemNo": @(item.itemNo) }];
   

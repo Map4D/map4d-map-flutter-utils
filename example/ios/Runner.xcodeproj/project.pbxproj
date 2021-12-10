@@ -34,12 +34,6 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		4403FD42276209D6000B0A96 /* FMFClusterItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMFClusterItem.h; sourceTree = "<group>"; };
-		4403FD4327620A09000B0A96 /* FMFClusterItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMFClusterItem.m; sourceTree = "<group>"; };
-		4479343327605254000FF2AE /* Map4dMapUtilsPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Map4dMapUtilsPlugin.h; path = ../../../ios/Classes/Map4dMapUtilsPlugin.h; sourceTree = "<group>"; };
-		4479343427605254000FF2AE /* Map4dMapUtilsPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Map4dMapUtilsPlugin.m; path = ../../../ios/Classes/Map4dMapUtilsPlugin.m; sourceTree = "<group>"; };
-		4479343627605254000FF2AE /* FMFClusterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMFClusterManager.m; sourceTree = "<group>"; };
-		4479343727605254000FF2AE /* FMFClusterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMFClusterManager.h; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		7AFFD8ED1D35381100E5BB4D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -55,6 +49,9 @@
 		A6A8C9D0D775D3D83B8275C3 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		C3C883E33DF9DF92FB2EC390 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		C51421086323584BB7D17D1E /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		E5F16AB527665CE100FAB851 /* Clustering */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Clustering; path = ../../ios/Classes/Clustering; sourceTree = "<group>"; };
+		E5F16AB627665CE100FAB851 /* Map4dMapUtilsPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Map4dMapUtilsPlugin.h; path = ../../ios/Classes/Map4dMapUtilsPlugin.h; sourceTree = "<group>"; };
+		E5F16AB727665CE100FAB851 /* Map4dMapUtilsPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Map4dMapUtilsPlugin.m; path = ../../ios/Classes/Map4dMapUtilsPlugin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,28 +76,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		447934322760505B000FF2AE /* MapUtils */ = {
-			isa = PBXGroup;
-			children = (
-				4479343527605254000FF2AE /* Clustering */,
-				4479343327605254000FF2AE /* Map4dMapUtilsPlugin.h */,
-				4479343427605254000FF2AE /* Map4dMapUtilsPlugin.m */,
-			);
-			path = MapUtils;
-			sourceTree = "<group>";
-		};
-		4479343527605254000FF2AE /* Clustering */ = {
-			isa = PBXGroup;
-			children = (
-				4479343627605254000FF2AE /* FMFClusterManager.m */,
-				4479343727605254000FF2AE /* FMFClusterManager.h */,
-				4403FD42276209D6000B0A96 /* FMFClusterItem.h */,
-				4403FD4327620A09000B0A96 /* FMFClusterItem.m */,
-			);
-			name = Clustering;
-			path = ../../../ios/Classes/Clustering;
-			sourceTree = "<group>";
-		};
 		950AC1ABCDA38B1C59B45A56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,7 +98,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-				447934322760505B000FF2AE /* MapUtils */,
+				E5F16AB427665CAA00FAB851 /* MapUtils */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -162,6 +137,16 @@
 				97C146F21CF9000F007C117D /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E5F16AB427665CAA00FAB851 /* MapUtils */ = {
+			isa = PBXGroup;
+			children = (
+				E5F16AB527665CE100FAB851 /* Clustering */,
+				E5F16AB627665CE100FAB851 /* Map4dMapUtilsPlugin.h */,
+				E5F16AB727665CE100FAB851 /* Map4dMapUtilsPlugin.m */,
+			);
+			name = MapUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,6 +379,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = C9QT66NNBA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -518,6 +504,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = C9QT66NNBA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -537,6 +524,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = C9QT66NNBA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
