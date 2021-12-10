@@ -1,6 +1,7 @@
 package vn.map4d.maputils.map4d_map_utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,10 @@ class Convert {
   static MFLocationCoordinate toCoordinate(Object o) {
     final List<?> data = toList(o);
     return new MFLocationCoordinate(toDouble(data.get(0)), toDouble(data.get(1)));
+  }
+
+  static Object latLngToJson(MFLocationCoordinate coordinate) {
+    return Arrays.asList(coordinate.getLatitude(), coordinate.getLongitude());
   }
 
   static FMFClusterItem interpretClusterItem(Object o) {
