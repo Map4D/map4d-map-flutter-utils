@@ -145,14 +145,28 @@
 #pragma mark - MFUClusterManagerDelegate
 
 -(BOOL)clusterManager:(MFUClusterManager *)clusterManager didTapCluster:(id<MFUCluster>)cluster {
-  NSLog(@"didTapCluster: %lu", cluster.count);
-  [_mapView animateCamera:[MFCameraUpdate setTarget:cluster.position
-                                               zoom:_mapView.camera.zoom + 1]];
+  NSMutableArray* itemNos = [NSMutableArray arrayWithCapacity:cluster.count];
+  for (id<MFUClusterItem> clusterItem in cluster.items) {
+    FMFClusterItem* item = (FMFClusterItem*)clusterItem;
+    [itemNos addObject:[NSNumber numberWithLongLong:item.itemNo]];
+  }
+
+  NSDictionary* arguments = @{
+    @"position": [Map4dFLTConvert locationToJson:cluster.position],
+    @"length": @(cluster.count),
+    @"itemNos": itemNos
+  };
+  [_channel invokeMethod:@"cluster#onClusterTap" arguments:arguments];
+
+  // Stop event here
   return YES;
 }
 
 - (BOOL)clusterManager:(MFUClusterManager *)clusterManager didTapClusterItem:(id<MFUClusterItem>)clusterItem {
-  NSLog(@"didTapClusterItem");
+  FMFClusterItem* item = (FMFClusterItem*)clusterItem;
+  [_channel invokeMethod:@"cluster#onClusterItemTap" arguments:@{ @"itemNo": @(item.itemNo) }];
+  
+  // Pass this tap event to other handlers
   return NO;
 }
 

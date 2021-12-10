@@ -8,16 +8,21 @@ class MFClusterItem {
     this.snippet,
   });
 
-  /// position of the item.
+  /// Position of the item.
   final MFLatLng position;
 
   final String? title;
 
   final String? snippet;
 
+  @override
+  String toString() {
+    return '$runtimeType{position: ${position.toString()}, title: $title, snippet: $snippet}';
+  }
+
   int? _itemNo;
 
-  Object toJson() {
+  Object _toJson() {
     final Map<String, Object> json = <String, Object>{};
 
     if (title != null) {

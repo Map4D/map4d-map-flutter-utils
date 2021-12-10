@@ -2,8 +2,11 @@ library map4d_map_utils;
 
 export 'src/clustering/cluster_manager.dart'
   show
+    MFCluster,
     MFClusterItem,
-    MFClusterManager;
+    MFClusterManager,
+    MFClusterCallback,
+    MFClusterItemCallback;
 
 export 'src/clustering/cluster_algorithm.dart'
   show

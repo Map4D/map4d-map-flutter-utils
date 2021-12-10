@@ -7,6 +7,10 @@ import '../map_utils_channel.dart';
 
 part 'cluster.dart';
 part 'cluster_item.dart';
+part 'cluster_implement.dart';
+
+typedef MFClusterCallback = void Function(MFCluster cluster);
+typedef MFClusterItemCallback = void Function(MFClusterItem clusterItem);
 
 ///
 ///
@@ -17,6 +21,8 @@ class MFClusterManager {
     required this.controller,
     this.algorithm = const MFNonHierarchicalDistanceBasedAlgorithm(),
     this.renderer = const MFDefaultClusterRenderer(),
+    this.onClusterTap,
+    this.onClusterItemTap,
   }) {
     Map<String, Object> data = <String, Object>{};
     data['algorithmName'] = _getClusterAlgorithmName();
@@ -40,6 +46,12 @@ class MFClusterManager {
   final MFClusterRenderer renderer;
 
   ///
+  final MFClusterCallback? onClusterTap;
+
+  ///
+  final MFClusterItemCallback? onClusterItemTap;
+
+  ///
   late final MethodChannel _channel;
 
   ///
@@ -61,7 +73,7 @@ class MFClusterManager {
     item._itemNo = _itemNoCounter++;
     _items.add(item);
     return _channel.invokeListMethod('cluster#addItem', <String, Object>{
-      'item': item.toJson()
+      'item': item._toJson()
     });
   }
 
@@ -70,12 +82,12 @@ class MFClusterManager {
     final List<Object> jsonItems = <Object>[];
     for (final MFClusterItem item in items) {
       if (item._itemNo != null) {
-        throw Exception('Cluster item already exists: ${item.toJson()}');
+        throw Exception('Cluster item already exists: ${item.toString()}');
       }
 
       item._itemNo = _itemNoCounter++;
       _items.add(item);
-      jsonItems.add(item.toJson());
+      jsonItems.add(item._toJson());
     }
     return _channel.invokeListMethod('cluster#addItems', <String, Object>{
       'items': jsonItems
@@ -88,7 +100,7 @@ class MFClusterManager {
       throw Exception('Cluster item not exists');
     }
 
-    Object itemJson = item.toJson();
+    Object itemJson = item._toJson();
     item._itemNo = null;
     return _channel.invokeListMethod('cluster#removeItem', <String, Object>{
       'item': itemJson
@@ -107,9 +119,42 @@ class MFClusterManager {
   /// Handle message from platform.
   Future<dynamic> _methodCallHandler(MethodCall call) async {
     switch (call.method) {
+      case 'cluster#onClusterTap':
+        if (onClusterTap != null) {
+          final position = MFLatLng.fromJson(call.arguments['position']);
+          final itemNos = call.arguments['itemNos'] as List;
+          List<MFClusterItem> items = <MFClusterItem>[];
+          for (final itemNo in itemNos) {
+            final clusterItem = _getClusterItem(itemNo);
+            if (clusterItem != null) {
+              items.add(clusterItem);
+            }
+          }
+          final cluster = _MFClusterImplement(position!, items);
+          onClusterTap!(cluster);
+        }
+        break;
+      case 'cluster#onClusterItemTap':
+        if (onClusterItemTap != null) {
+          final int itemNo = call.arguments['itemNo'];
+          final clusterItem = _getClusterItem(itemNo);
+          if (clusterItem != null) {
+            onClusterItemTap!(clusterItem);
+          }
+        }
+        break;
       default:
         throw Exception('Unknow callback method: ${call.method}');
     }
+  }
+
+  MFClusterItem? _getClusterItem(final int itemNo) {
+    for (final item in _items) {
+      if (itemNo == item._itemNo) {
+        return item;
+      }
+    }
+    return null;
   }
 
   String _getClusterAlgorithmName() {
