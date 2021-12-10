@@ -25,51 +25,35 @@ class _MyAppState extends State<MyApp> {
   final double cameraLatitude = 16.0432432;
   final double cameraLongitude = 108.032432;
 
-  void onMapCreated(MFMapViewController controller) {
+  void _onMapCreated(MFMapViewController controller) {
     _clusterManager = MFClusterManager(
       controller: controller,
       algorithm: MFNonHierarchicalDistanceBasedAlgorithm()
     );
-    // letItGo();
+
     _generateClusterItems();
     _clusterManager.cluster();
   }
 
-  Future<void> letItGo() async {
-    final marker0 = MFMarker(
-      markerId: MFMarkerId('m0'),
-      position: MFLatLng(0, 0)
-    );
+  void _onCameraIdle() {
+    // _clusterManager.cluster();
+  }
 
-    final marker1 = MFMarker(
-      markerId: MFMarkerId('m1'),
-      position: MFLatLng(1, 1)
-    );
-
-    final marker2 = MFMarker(
-      markerId: MFMarkerId('m2'),
-      position: MFLatLng(2, 2)
-    );
-
-    await _clusterManager.addItem(marker0);
-
-    final Set<MFMarker> items = <MFMarker>{};
-    items.add(marker1);
-    items.add(marker2);
-    await _clusterManager.addItems(items);
+  void _onTapClusterItem(String clusterItemId) {
+    print('onTapClusterItem: $clusterItemId');
   }
 
   void _generateClusterItems() {
     const double extent = 0.2;
+    List<MFClusterItem> items = <MFClusterItem>[];
     for (int index = 1; index <= maxClusterItemCount; ++index) {
       double lat = cameraLatitude + extent * _randomScale();
       double lng = cameraLongitude + extent * _randomScale();
-      final marker = MFMarker(
-        markerId: MFMarkerId(index.toString()),
-        position: MFLatLng(lat, lng),
-      );
-      _clusterManager.addItem(marker);
+      final item = MFClusterItem(position: MFLatLng(lat, lng));
+      items.add(item);
+      // _clusterManager.addItem(item);
     }
+    _clusterManager.addItems(items);
   }
 
   /// Returns a random value between -1.0 and 1.0.
@@ -86,7 +70,8 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Center(
           child: MFMapView(
-            onMapCreated: onMapCreated,
+            onMapCreated: _onMapCreated,
+            onCameraIdle: _onCameraIdle,
             initialCameraPosition: MFCameraPosition(
               target: MFLatLng(cameraLatitude, cameraLongitude),
               zoom: 10,

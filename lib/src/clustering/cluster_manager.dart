@@ -5,6 +5,12 @@ import 'cluster_algorithm.dart';
 import 'cluster_renderer.dart';
 import '../map_utils_channel.dart';
 
+part 'cluster.dart';
+part 'cluster_item.dart';
+
+///
+///
+///
 class MFClusterManager {
 
   MFClusterManager({
@@ -19,6 +25,9 @@ class MFClusterManager {
     String name = MapUtilsChannel.createPlatformClusterManager(controller.mapId, data);
     _channel = MethodChannel(name);
     _channel.setMethodCallHandler((call) => _methodCallHandler(call));
+
+    _items = <MFClusterItem>[];
+    _itemNoCounter = 1;
   }
 
   ///
@@ -34,21 +43,38 @@ class MFClusterManager {
   late final MethodChannel _channel;
 
   ///
+  late final List<MFClusterItem> _items;
+
+  late int _itemNoCounter;
+
+  ///
   Future<void> cluster() {
     return _channel.invokeListMethod('cluster#cluster');
   }
 
-  /// TODO: consider to create MFClusterItem
-  Future<void> addItem(MFMarker item) {
+  ///
+  Future<void> addItem(MFClusterItem item) {
+    if (item._itemNo != null) {
+      throw Exception('Cluster item already exists');
+    }
+
+    item._itemNo = _itemNoCounter++;
+    _items.add(item);
     return _channel.invokeListMethod('cluster#addItem', <String, Object>{
       'item': item.toJson()
     });
   }
 
-  /// TODO: consider change to list ?
-  Future<void> addItems(Set<MFMarker> items) {
+  ///
+  Future<void> addItems(List<MFClusterItem> items) {
     final List<Object> jsonItems = <Object>[];
-    for (final MFMarker item in items) {
+    for (final MFClusterItem item in items) {
+      if (item._itemNo != null) {
+        throw Exception('Cluster item already exists: ${item.toJson()}');
+      }
+
+      item._itemNo = _itemNoCounter++;
+      _items.add(item);
       jsonItems.add(item.toJson());
     }
     return _channel.invokeListMethod('cluster#addItems', <String, Object>{
@@ -57,14 +83,24 @@ class MFClusterManager {
   }
 
   ///
-  Future<void> removeItem(MFMarker item) {
+  Future<void> removeItem(MFClusterItem item) {
+    if (item._itemNo == null) {
+      throw Exception('Cluster item not exists');
+    }
+
+    Object itemJson = item.toJson();
+    item._itemNo = null;
     return _channel.invokeListMethod('cluster#removeItem', <String, Object>{
-      'item': item.toJson()
+      'item': itemJson
     });
   }
 
   ///
   Future<void> clearItems() {
+    for (final item in _items) {
+      item._itemNo = null;
+    }
+    _items.clear();
     return _channel.invokeListMethod('cluster#clearItems');
   }
 
@@ -72,8 +108,7 @@ class MFClusterManager {
   Future<dynamic> _methodCallHandler(MethodCall call) async {
     switch (call.method) {
       default:
-        // ignore: avoid_print
-        print('Unknow callback method: ${call.method}');
+        throw Exception('Unknow callback method: ${call.method}');
     }
   }
 
