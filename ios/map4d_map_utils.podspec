@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'map4d_map_utils'
-  s.version          = '0.0.1'
+  s.version          = '1.0.0'
   s.summary          = 'Map4dMapUtils SDK for Flutter'
   s.description      = <<-DESC
   A Flutter plugin that provides utility library for map4d_map.

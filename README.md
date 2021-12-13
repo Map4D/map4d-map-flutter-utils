@@ -9,6 +9,8 @@ A Flutter plugin that provides utility library for [Map4dMap](https://pub.dev/pa
 
 ## Installing
 
+### Depend on it
+
 To use this plugin, run command:
 
 ```bash
@@ -19,6 +21,14 @@ Or add `map4d_map_utils` as a dependency in your `pubspec.yaml` file.
 ```yaml
 dependencies:
   map4d_map_utils: ^1.0.0
+```
+
+### Import it
+
+In your Dart code, you can use:
+
+```dart
+import 'package:map4d_map_utils/map4d_map_utils.dart';
 ```
 
 ## Requirements
@@ -59,11 +69,12 @@ class MyApp extends StatelessWidget {
 
   void onMapCreated(MFMapViewController controller) {
     final clusterManager = MFClusterManager(
-        controller: controller,
-        onClusterTap: (cluster) => onClusterTap(cluster, controller));
+      controller: controller,
+      onClusterTap: (cluster) => onClusterTap(cluster, controller)
+    );
     // Generate cluster items
     const double extent = 0.2;
-    for (int index = 1; index <= maxClusterItemCount; index++) {
+    for (int i = 0; i < maxClusterItemCount; i++) {
       double lat = cameraLatitude + extent * (Random().nextDouble() * 2.0 - 1.0);
       double lng = cameraLongitude + extent * (Random().nextDouble() * 2.0 - 1.0);
       final item = MFClusterItem(position: MFLatLng(lat, lng));

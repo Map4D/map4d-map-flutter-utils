@@ -25,16 +25,15 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  NSLog(@"handleMethodCall: %s", [call.method UTF8String]);
-
+  // Initial new cluster manager
   if ([@"cluster#init" isEqualToString:call.method]) {
-
     FMFClusterManager* manager = [[FMFClusterManager alloc] initWithRegistrar:_registrar arguments:call.arguments];
     [_clusterManagers addObject:manager];
-
+    result(nil);
     return;
   }
 
+  NSLog(@"Map4dMapUtilsPlugin - Method not implemented: %s", [call.method UTF8String]);
   result(FlutterMethodNotImplemented);
 }
 
