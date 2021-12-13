@@ -15,7 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   late MFClusterManager _clusterManager;
   late MFMapViewController _controller;
   final int maxClusterItemCount = 500;
@@ -25,10 +24,9 @@ class _MyAppState extends State<MyApp> {
   void _onMapCreated(MFMapViewController controller) {
     _controller = controller;
     _clusterManager = MFClusterManager(
-      controller: controller,
-      onClusterTap: _onClusterTap,
-      onClusterItemTap: _onClusterItemTap
-    );
+        controller: controller,
+        onClusterTap: _onClusterTap,
+        onClusterItemTap: _onClusterItemTap);
 
     _generateClusterItems();
     _clusterManager.cluster();
@@ -40,7 +38,8 @@ class _MyAppState extends State<MyApp> {
 
   void _onClusterTap(MFCluster cluster) async {
     final zoom = await _controller.getZoomLevel();
-    _controller.animateCamera(MFCameraUpdate.newLatLngZoom(cluster.position, zoom + 1));
+    _controller.animateCamera(
+        MFCameraUpdate.newLatLngZoom(cluster.position, zoom + 1));
   }
 
   void _onClusterItemTap(MFClusterItem clusterItem) {

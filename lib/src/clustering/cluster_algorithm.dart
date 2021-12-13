@@ -1,6 +1,5 @@
 /// Base Algorithm class that arranging cluster items into groups.
-abstract class MFClusterAlgorithm {
-}
+abstract class MFClusterAlgorithm {}
 
 /// A simple algorithm which divides the map into a grid where a cell has fixed dimension in screen space.
 class MFGridBasedAlgorithm implements MFClusterAlgorithm {

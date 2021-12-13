@@ -2,7 +2,6 @@ part of 'cluster_manager.dart';
 
 /// [MFClusterItem] represents a marker on the map.
 class MFClusterItem {
-
   MFClusterItem({
     required this.position,
     this.title,

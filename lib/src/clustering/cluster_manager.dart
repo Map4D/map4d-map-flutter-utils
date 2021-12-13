@@ -15,11 +15,9 @@ typedef MFClusterCallback = void Function(MFCluster cluster);
 /// This is used in [MFClusterManager.onClusterItemTap].
 typedef MFClusterItemCallback = void Function(MFClusterItem clusterItem);
 
-
 /// This class groups many items on a map based on zoom level.
 /// Cluster items should be added to the map via this class.
 class MFClusterManager {
-
   MFClusterManager({
     required this.controller,
     this.algorithm = const MFNonHierarchicalDistanceBasedAlgorithm(),
@@ -31,7 +29,8 @@ class MFClusterManager {
     data['algorithmName'] = _getClusterAlgorithmName();
     data['rendererName'] = _getClusterRendererName();
 
-    String name = MapUtilsChannel.createPlatformClusterManager(controller.mapId, data);
+    String name =
+        MapUtilsChannel.createPlatformClusterManager(controller.mapId, data);
     _channel = MethodChannel(name);
     _channel.setMethodCallHandler((call) => _methodCallHandler(call));
 
@@ -79,9 +78,8 @@ class MFClusterManager {
 
     item._itemNo = _itemNoCounter++;
     _items.add(item);
-    return _channel.invokeListMethod('cluster#addItem', <String, Object>{
-      'item': item._toJson()
-    });
+    return _channel.invokeListMethod(
+        'cluster#addItem', <String, Object>{'item': item._toJson()});
   }
 
   /// Adds multiple cluster items to the collection.
@@ -96,9 +94,8 @@ class MFClusterManager {
       _items.add(item);
       jsonItems.add(item._toJson());
     }
-    return _channel.invokeListMethod('cluster#addItems', <String, Object>{
-      'items': jsonItems
-    });
+    return _channel.invokeListMethod(
+        'cluster#addItems', <String, Object>{'items': jsonItems});
   }
 
   /// Removes a cluster item from the collection.
@@ -109,9 +106,8 @@ class MFClusterManager {
 
     Object itemJson = item._toJson();
     item._itemNo = null;
-    return _channel.invokeListMethod('cluster#removeItem', <String, Object>{
-      'item': itemJson
-    });
+    return _channel.invokeListMethod(
+        'cluster#removeItem', <String, Object>{'item': itemJson});
   }
 
   /// Removes all items from the collection.
@@ -168,11 +164,11 @@ class MFClusterManager {
     if (algorithm is MFGridBasedAlgorithm) {
       return 'MFGridBasedAlgorithm';
     }
-    
+
     if (algorithm is MFNonHierarchicalDistanceBasedAlgorithm) {
       return 'MFNonHierarchicalDistanceBasedAlgorithm';
     }
-    
+
     return 'CustomAlgorithm';
   }
 

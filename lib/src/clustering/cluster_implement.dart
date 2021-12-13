@@ -1,7 +1,6 @@
 part of 'cluster_manager.dart';
 
 class _MFClusterImplement implements MFCluster {
-
   final MFLatLng _position;
 
   final List<MFClusterItem> _items;

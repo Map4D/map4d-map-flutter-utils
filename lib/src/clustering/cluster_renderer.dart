@@ -1,6 +1,5 @@
 /// Renders clusters.
-abstract class MFClusterRenderer {
-}
+abstract class MFClusterRenderer {}
 
 /// The default view for a cluster manager.
 class MFDefaultClusterRenderer implements MFClusterRenderer {
