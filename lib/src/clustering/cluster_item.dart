@@ -1,5 +1,6 @@
 part of 'cluster_manager.dart';
 
+/// [MFClusterItem] represents a marker on the map.
 class MFClusterItem {
 
   MFClusterItem({
@@ -11,16 +12,18 @@ class MFClusterItem {
   /// Position of the item.
   final MFLatLng position;
 
+  /// The title of this item.
   final String? title;
 
+  /// The description of this item.
   final String? snippet;
+
+  int? _itemNo;
 
   @override
   String toString() {
     return '$runtimeType{position: ${position.toString()}, title: $title, snippet: $snippet}';
   }
-
-  int? _itemNo;
 
   Object _toJson() {
     final Map<String, Object> json = <String, Object>{};

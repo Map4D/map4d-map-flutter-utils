@@ -9,12 +9,15 @@ part 'cluster.dart';
 part 'cluster_item.dart';
 part 'cluster_implement.dart';
 
+/// This is used in [MFClusterManager.onClusterTap].
 typedef MFClusterCallback = void Function(MFCluster cluster);
+
+/// This is used in [MFClusterManager.onClusterItemTap].
 typedef MFClusterItemCallback = void Function(MFClusterItem clusterItem);
 
-///
-///
-///
+
+/// This class groups many items on a map based on zoom level.
+/// Cluster items should be added to the map via this class.
 class MFClusterManager {
 
   MFClusterManager({
@@ -36,35 +39,39 @@ class MFClusterManager {
     _itemNoCounter = 1;
   }
 
-  ///
+  /// Controller of the [MFMapView] to add cluster items.
   final MFMapViewController controller;
 
-  ///
+  /// Clustering algorithm.
   final MFClusterAlgorithm algorithm;
 
-  ///
+  /// Clustering renderer.
   final MFClusterRenderer renderer;
 
-  ///
+  /// Called when the user taps on a cluster marker.
   final MFClusterCallback? onClusterTap;
 
-  ///
+  /// Called when the user taps on a cluster item marker.
   final MFClusterItemCallback? onClusterItemTap;
 
-  ///
+  /// Channel for communicating with platform cluster manager.
   late final MethodChannel _channel;
 
-  ///
+  /// Cluster items collection.
   late final List<MFClusterItem> _items;
 
+  /// Used to number items added to the collection.
   late int _itemNoCounter;
 
-  ///
+  /// Called to arrange items into groups.
+  /// - This method will be automatically invoked when the map's zoom level changes.
+  /// - Manually invoke this method when new items have been added to rearrange items.
+  /// You should call this after adding, removing, updating.
   Future<void> cluster() {
     return _channel.invokeListMethod('cluster#cluster');
   }
 
-  ///
+  /// Adds a cluster item to the collection.
   Future<void> addItem(MFClusterItem item) {
     if (item._itemNo != null) {
       throw Exception('Cluster item already exists');
@@ -77,7 +84,7 @@ class MFClusterManager {
     });
   }
 
-  ///
+  /// Adds multiple cluster items to the collection.
   Future<void> addItems(List<MFClusterItem> items) {
     final List<Object> jsonItems = <Object>[];
     for (final MFClusterItem item in items) {
@@ -94,7 +101,7 @@ class MFClusterManager {
     });
   }
 
-  ///
+  /// Removes a cluster item from the collection.
   Future<void> removeItem(MFClusterItem item) {
     if (item._itemNo == null) {
       throw Exception('Cluster item not exists');
@@ -107,7 +114,7 @@ class MFClusterManager {
     });
   }
 
-  ///
+  /// Removes all items from the collection.
   Future<void> clearItems() {
     for (final item in _items) {
       item._itemNo = null;
@@ -173,7 +180,6 @@ class MFClusterManager {
     if (renderer is MFDefaultClusterRenderer) {
       return 'MFDefaultClusterRenderer';
     }
-
     return 'CustomRenderer';
   }
 }
